@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
     <head>
-
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <!-- <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'/> -->
     </head>
     <body>
         <script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
@@ -11,13 +12,23 @@
     <body onload="sibal();"></body>
     <script>
         window.onload = function(){
+            // var doc_input = document.getElementById("input")
             init();
         }
     </script>
     <!-- <body onload="init();"> -->
     <body>
-        <canvas id="demoCanvas" width="500" height="250">
-            alternate content
+        <canvas id="demoCanvas" width="500" height="300">
+                alternate content
         </canvas>
+        
+        
     </body>
+    <form method="get" action="http://127.0.0.1:8000/hello" id="inputBox" style="display: none;" >
+        <input type="text" name="q_id" value="1"/ style="display: none;" >
+        <!-- <input type="text" name="code2" id="codePush" width="500"  height="100" style="display: none;" /> -->
+        <input type="text" name="code" id="codeInput" width="500"  height="100" oninput="semifixer()"/>
+        <input type="submit" onclick="sendCode();"/>
+    </form>
+    
 </html>
