@@ -1,0 +1,43 @@
+
+
+<html>
+        <script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
+
+        <script>
+        var c = createjs;
+        
+        init();
+        function init() {
+            var stage = new c.Stage("foo");
+            stage.enableMouseOver();
+            
+            // create a spritesheet to get around cross domain security issues:
+            // you can mostly ignore this.
+            var ssb = new c.SpriteSheetBuilder();
+            var frame0 = new c.Shape(new c.Graphics().f("red").r(0,0,100,100));
+            var frame1 = new c.Shape(new c.Graphics().f("green").dc(50,50,40));
+            var bounds = new c.Rectangle(0,0,100,100);
+            ssb.addFrame(frame0, bounds);
+            ssb.addFrame(frame1, bounds);
+            var spriteSheet = ssb.build();
+            
+            // dump the spriteSheet image to the dom so we can see it:
+            document.body.appendChild(spriteSheet._images[0]);
+            // create the button:
+            var btn = new c.Sprite(spriteSheet);
+            btn.x = btn.y = 100;
+            btn.cursor = "pointer";
+            
+            // create and assign the hitArea:
+            var hitArea = new c.Sprite(spriteSheet, 1);
+            btn.hitArea = hitArea;
+            
+            stage.addChild(btn);
+            stage.update();
+        }
+        </script>
+  <p>
+    <canvas id="foo" style="background:#EEE" width="500" height="400"></canvas>
+</p>
+<p>Roll over the square above, notice that it is using the circle as its hit area. Generated sprite sheet below:</p>  
+</html>
