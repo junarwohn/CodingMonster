@@ -1,7 +1,10 @@
+// variable declare 
+var IS_MOVABLE = true;
+var STAGE_WIDTH, STAGE_HEIGHT;
 var stage, hero, backGround, npc_cnt;
 npc_cnt = 0;
 var is_inputting = false;
-var b_g_data={
+var bg_data={
     images: ["backGround.png"],
     frames:{width:64, height:64},
     animations: {
@@ -14,33 +17,32 @@ var b_g_data={
         soil_2 : 11,
     }
 };
-var spriteSheet = new createjs.SpriteSheet(b_g_data);
-var bebe = new createjs.Sprite(spriteSheet, "grass_1");
+var bgsprite_sheet = new createjs.SpriteSheet(bg_data);
 var codingQuestion = [
     "Hello World!를 출력하는 함수 void hello()를 완성하시오",
     "두 수 a, b를 인자로 받고 그 둘의 합을 반환하는 함수 int sumab(int a, int b)를 완성하시오",
-]
-if (window.File && window.FileReader && window.FileList && window.Blob) {
-    // alert(" Great success! All the File APIs are supported.");
-  } else {
-    alert('The File APIs are not fully supported in this browser.');
-}
+];
+
+var is_hero_interact_able = false;
+var is_text_box_interact = false;
+var npc_list = [new npc(20,40), new npc(80, 100), new npc(40, 160)];
+var meet_npc_id = -1; 
+
+// class declare
+
 function npc(x, y) {
     this.x = x;
     this.y = y;
     this.npc_id = npc_cnt++;
 }
-var is_hero_interact_able = false;
-var is_text_box_interact = false;
-var npc_list = [new npc(20,40), new npc(80, 100), new npc(40, 160)];
-var meet_npc_id = -1;
-
-// npc_cnt = 3;
 
 function init(move, event) {
     stage = new createjs.Stage("demoCanvas");
-    hero = new createjs.Bitmap("Char.png");
-    var textBox = new createjs.Text("Hello World", "20px Arial", "#ff7700");
+    STAGE_WIDTH = document.getElementById("demoCanvas").width;
+    STAGE_HEIGHT = document.getElementById("demoCanvas").height;
+    // console.log(hero.getBounds().width);
+    hero = new createjs.Bitmap("hero.png");
+    // var textBox = new createjs.Text("Hello World", "20px Arial", "#ff7700");
     hero.scaleX = 20/185;
     hero.scaleY = 20/183;
     for (var bg_x = 0; bg_x < 25; bg_x++) {
@@ -57,9 +59,9 @@ function init(move, event) {
             } else {
                 var bg_tile;
                 if (bg_x < 15) {
-                    bg_tile = new createjs.Sprite(spriteSheet, "soil_1");
+                    bg_tile = new createjs.Sprite(bgsprite_sheet, "soil_1");
                 } else {
-                    bg_tile = new createjs.Sprite(spriteSheet, "grass_1");
+                    bg_tile = new createjs.Sprite(bgsprite_sheet, "grass_1");
                 }
                 bg_tile.scaleX = 20/64;
                 bg_tile.scaleY = 20/64;
@@ -70,10 +72,9 @@ function init(move, event) {
         }
     }
     stage.addChild(hero);
-    stage.addChild(textBox);
+    // stage.addChild(textBox);
     createjs.Ticker.addEventListener("tick", handleTick);
     createjs.Ticker.setFPS(50);
-    
 }
 function handleTick(event) {
     // Actions carried out each tick (aka frame)
@@ -187,7 +188,7 @@ function check(e) {
 function npc_interaction() {
     if (is_hero_interact_able) {
 
-        var line = Math.round(Math.random()*5)
+        var line = Math.floor(Math.random()*5);
         switch (line) {
             case 0: alert("내 마음엔... 확실히 닿았다..."); break;
             case 1: alert("김!공!익! 점호준비 끝! 충성충성^^7"); break;
@@ -221,13 +222,6 @@ function codeInputOpenAndClose() {
     else {
         document.getElementById("inputBox").style.display = 'none';
     }
-
-    //server
-//     <form action = "http://localhost:8080/form.jsp" accept-charset="utf-8" 
-//     name = "person_info" method = "get"> 
-
-// </form>
-
 }
 
 function sendCode() {
