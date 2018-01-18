@@ -18,6 +18,16 @@ var bg_data={
     }
 };
 var bgsprite_sheet = new createjs.SpriteSheet(bg_data);
+//todo: npc add 20 x 20
+var npc_data={
+    images: ["comoNPC.jpg"],
+    frames:{width:80, height:80},
+    animations:{
+        gg : [0,129],
+    }
+};
+var npcsprite_sheet = new createjs.SpriteSheet(npc_data);
+
 var codingQuestion = [
     "Hello World!를 출력하는 함수 void hello()를 완성하시오",
     "두 수 a, b를 인자로 받고 그 둘의 합을 반환하는 함수 int sumab(int a, int b)를 완성하시오",
@@ -40,7 +50,6 @@ function init(move, event) {
     stage = new createjs.Stage("demoCanvas");
     STAGE_WIDTH = document.getElementById("demoCanvas").width;
     STAGE_HEIGHT = document.getElementById("demoCanvas").height;
-    // console.log(hero.getBounds().width);
     hero = new createjs.Bitmap("hero.png");
     // var textBox = new createjs.Text("Hello World", "20px Arial", "#ff7700");
     hero.scaleX = 20/185;
@@ -53,21 +62,21 @@ function init(move, event) {
                     is_npc_pos = true;
                 }
             });
-            if (is_npc_pos) {
-                console.log("yayayaya");
-                continue;
+            var bg_tile;
+            if (bg_x < 15) {
+                bg_tile = new createjs.Sprite(bgsprite_sheet, "soil_1");
             } else {
-                var bg_tile;
-                if (bg_x < 15) {
-                    bg_tile = new createjs.Sprite(bgsprite_sheet, "soil_1");
-                } else {
-                    bg_tile = new createjs.Sprite(bgsprite_sheet, "grass_1");
-                }
-                bg_tile.scaleX = 20/64;
-                bg_tile.scaleY = 20/64;
-                stage.addChild(bg_tile);
-                bg_tile.x = bg_x*20;
-                bg_tile.y = bg_y*20;
+                bg_tile = new createjs.Sprite(bgsprite_sheet, "grass_1");
+            }
+            bg_tile.scaleX = 20/64;
+            bg_tile.scaleY = 20/64;
+            stage.addChild(bg_tile);
+            bg_tile.x = bg_x*20;
+            bg_tile.y = bg_y*20;
+
+            if (is_npc_pos) {
+                var npc_icon;
+
             }
         }
     }
@@ -75,6 +84,9 @@ function init(move, event) {
     // stage.addChild(textBox);
     createjs.Ticker.addEventListener("tick", handleTick);
     createjs.Ticker.setFPS(50);
+    var npc_child = new createjs.Sprite(npcsprite_sheet);
+    // var npc_child = new createjs.Sprite(npcsprite_sheet, "gg");
+    stage.addChild(npc_child);
 }
 function handleTick(event) {
     // Actions carried out each tick (aka frame)
